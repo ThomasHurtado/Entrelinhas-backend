@@ -1,0 +1,11 @@
+import "dotenv/config";
+import bcrypt from "bcryptjs";
+import {connectDatabase} from "../src/config/db.js";
+import User from "../src/models/User.js";
+await connectDatabase();
+const email=(process.env.ADMIN_EMAIL||"admin@entrelinhas.com").toLowerCase();
+const password=process.env.ADMIN_PASSWORD||"123456";
+const passwordHash=await bcrypt.hash(password,12);
+await User.findOneAndUpdate({email},{email,passwordHash},{upsert:true,new:true});
+console.log(`Usuário administrador preparado: ${email}`);
+process.exit(0);

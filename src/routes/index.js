@@ -1,0 +1,18 @@
+import {Router} from "express";
+import {login} from "../controllers/authController.js";
+import {listParticipants,createParticipant,updateParticipant,deleteParticipant} from "../controllers/participantController.js";
+import {listMeetings,createMeeting,deleteMeeting,updateAttendance} from "../controllers/meetingController.js";
+import {listNotes,saveNote,deleteNote} from "../controllers/noteController.js";
+import {getFinance,updateFinance} from "../controllers/financeController.js";
+import {listIdeas,createIdea,updateIdeaStatus,deleteIdea} from "../controllers/ideaController.js";
+const router=Router();
+router.patch("/participants/:id",updateParticipant);
+router.delete("/meetings/:id",deleteMeeting);
+router.get("/health",(req,res)=>res.json({ok:true}));
+router.post("/auth/login",login);
+router.get("/participants",listParticipants); router.post("/participants",createParticipant); router.delete("/participants/:id",deleteParticipant);
+router.get("/meetings",listMeetings); router.post("/meetings",createMeeting); router.patch("/meetings/:id/attendance/:participantId",updateAttendance);
+router.get("/notes",listNotes); router.put("/notes/:date",saveNote); router.delete("/notes/:date",deleteNote);
+router.get("/finance",getFinance); router.put("/finance",updateFinance);
+router.get("/ideas",listIdeas); router.post("/ideas",createIdea); router.patch("/ideas/:id/status",updateIdeaStatus); router.delete("/ideas/:id",deleteIdea);
+export default router;
