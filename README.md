@@ -26,8 +26,14 @@ O backend aceita banco sem participantes, encontros ou anotações. As rotas de 
 - `DELETE /api/meetings/:id`: exclui um encontro, sem corpo na requisição, e retorna 204 sem conteúdo.
 - `PATCH /api/meetings/:id/attendance/:participantId`
 - `GET /api/notes`
+- `GET /api/notebook/pages`: lista as páginas do caderno (200); retorna `[]` quando vazio.
+- `POST /api/notebook/pages`: cria uma página (201), recebendo `{"title":"","text":""}`.
+- `PATCH /api/notebook/pages/:id`: edita `title` e/ou `text` e retorna a página atualizada (200).
+- `DELETE /api/notebook/pages/:id`: exclui uma página e retorna 204 sem conteúdo.
 - `DELETE /api/ideas/:id`: exclui uma ideia, sem corpo na requisição, e retorna 204 sem conteúdo.
 - `PUT/DELETE /api/notes/:date`
+
+As páginas do notebook retornadas incluem `_id`, `title` e `text`. Título e texto devem ser strings; strings vazias são aceitas e espaços e quebras de linha são preservados. POST exige ambos os campos; PATCH exige ao menos um e preserva o campo omitido. Campos adicionais são ignorados. Dados ou identificadores inválidos retornam 400; páginas inexistentes no PATCH/DELETE retornam 404.
 
 ## Novos recursos
 Nas rotas acima com `:id`, use o `_id` do registro no MongoDB. A alteração de participante e as exclusões retornam 404 quando o registro não existe e 400 quando o identificador é inválido. O PATCH de participante exige ao menos um dos campos `name` ou `birthDate`.
